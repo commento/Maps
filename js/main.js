@@ -76,7 +76,7 @@
 
         // Create a "highlighted location" marker color for when the user
         // mouses over the marker.
-        var highlightedIcon = makeMarkerIcon('FFFF24');
+        var highlightedIcon = makeMarkerIcon('144b53');
 
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < locations.length; i++) {
