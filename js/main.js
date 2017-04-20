@@ -197,6 +197,7 @@
 
         this.hasClickedShowButton = ko.observable(0);
         this.hasClickedHideButton = ko.observable(0);
+        this.address = ko.observable("");
 
         this.showListings = function() {
           var bounds = new google.maps.LatLngBounds();
@@ -213,7 +214,6 @@
         };
 
         this.hideListings = function() {
-
           hideMarkers(markers);
           this.hasClickedShowButton(0);
           this.hasClickedHideButton(1);
@@ -228,12 +228,46 @@
           return this.hasClickedHideButton() == 1;
         }, this);
 
+        // This shows and hides (respectively) the drawing options.
         this.toggleDrawing = function() {
-          toggleDrawing(drawingManager);
+          if (drawingManager.map) {
+            drawingManager.setMap(null);
+            // In case the user drew anything, get rid of the polygon
+            if (polygon !== null) {
+              polygon.setMap(null);
+            }
+          } else {
+            drawingManager.setMap(map);
+          }
         };
 
+        // This function takes the input value in the find nearby area text input
+        // locates it, and then zooms into that area. This is so that the user can
+        // show all listings, then decide to focus on one area of the map.
         this.zoomToArea = function() {
-          zoomToArea();
+          //var zoomToAreaText 
+          var geocoder = new google.maps.Geocoder();
+          // Get the address or place that the user entered.
+          var address = this.address();
+          // Make sure the address isn't blank.
+          if (address == '') {
+            window.alert('You must enter an area, or address.');
+          } else {
+            // Geocode the address/area entered to get the center. Then, center the map
+            // on it and zoom in
+            geocoder.geocode(
+              { address: address,
+                componentRestrictions: {locality: 'Berlin'}
+              }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                  map.setCenter(results[0].geometry.location);
+                  map.setZoom(15);
+                } else {
+                  window.alert('We could not find that location - try entering a more' +
+                      ' specific place.');
+                }
+              });
+            }
         };
 
       };
@@ -259,19 +293,6 @@
         return markerImage;
       }
 
-      // This shows and hides (respectively) the drawing options.
-      function toggleDrawing(drawingManager) {
-        if (drawingManager.map) {
-          drawingManager.setMap(null);
-          // In case the user drew anything, get rid of the polygon
-          if (polygon !== null) {
-            polygon.setMap(null);
-          }
-        } else {
-          drawingManager.setMap(map);
-        }
-      }
-
       // This function hides all markers outside the polygon,
       // and shows only the ones within it. This is so that the
       // user can specify an exact area of search.
@@ -284,35 +305,6 @@
           }
         }
       }
-
-      // This function takes the input value in the find nearby area text input
-      // locates it, and then zooms into that area. This is so that the user can
-      // show all listings, then decide to focus on one area of the map.
-      function zoomToArea() {
-        // Initialize the geocoder.
-        var geocoder = new google.maps.Geocoder();
-        // Get the address or place that the user entered.
-        var address = document.getElementById('zoom-to-area-text').value;
-        // Make sure the address isn't blank.
-        if (address == '') {
-          window.alert('You must enter an area, or address.');
-        } else {
-          // Geocode the address/area entered to get the center. Then, center the map
-          // on it and zoom in
-          geocoder.geocode(
-            { address: address,
-              componentRestrictions: {locality: 'Berlin'}
-            }, function(results, status) {
-              if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                map.setZoom(15);
-              } else {
-                window.alert('We could not find that location - try entering a more' +
-                    ' specific place.');
-              }
-            });
-          }
-        }
 
       // This function allows the user to input a desired travel time, in
       // minutes, and a travel mode, and a location - and only show the listings
