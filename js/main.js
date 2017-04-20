@@ -106,7 +106,7 @@
             this.setIcon(defaultIcon);
           });
         }
-        document.getElementById('show-listings').addEventListener('click', showListings);
+        //document.getElementById('show-listings').addEventListener('click', showListings);
 
         document.getElementById('hide-listings').addEventListener('click', function() {
           hideMarkers(markers);
@@ -204,15 +204,42 @@
       }
 
       // This function will loop through the markers array and display them all.
-      function showListings() {
-        var bounds = new google.maps.LatLngBounds();
-        // Extend the boundaries of the map for each marker and display the marker
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-          bounds.extend(markers[i].position);
-        }
-        map.fitBounds(bounds);
-      }
+      var InformationPanelViewModel = function() {
+
+        this.hasClickedShowButton = ko.observable(0);
+        this.hasClickedHideButton = ko.observable(0);
+
+        this.showListings = function() {
+          var bounds = new google.maps.LatLngBounds();
+          // Extend the boundaries of the map for each marker and display the marker
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+            bounds.extend(markers[i].position);
+          }
+          map.fitBounds(bounds);
+
+          this.hasClickedShowButton(1);
+          this.hasClickedHideButton(0);
+
+        };
+
+        this.hideListings = function() {
+
+          hideMarkers(markers);
+          this.hasClickedShowButton(0);
+          this.hasClickedHideButton(1);
+
+        };
+
+        this.hasClickedShow = ko.computed(function() {
+          return this.hasClickedShowButton() == 1;
+        }, this);
+
+        this.hasClickedHide = ko.computed(function() {
+          return this.hasClickedHideButton() == 1;
+        }, this);
+
+      };
 
       // This function will loop through the listings and hide them all.
       function hideMarkers(markers) {
@@ -526,4 +553,4 @@
           });
         }
       });
-    }
+    }    }
