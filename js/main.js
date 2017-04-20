@@ -10,6 +10,8 @@
       // over the number of places that show.
       var placeMarkers = [];
 
+      var drawingManager = null;
+
       function initMap() {
         // Create a styles array to use with the map.
 
@@ -60,7 +62,7 @@
         var largeInfowindow = new google.maps.InfoWindow();
 
         // Initialize the drawing manager.
-        var drawingManager = new google.maps.drawing.DrawingManager({
+        drawingManager = new google.maps.drawing.DrawingManager({
           drawingMode: google.maps.drawing.OverlayType.POLYGON,
           drawingControl: true,
           drawingControlOptions: {
@@ -106,15 +108,6 @@
             this.setIcon(defaultIcon);
           });
         }
-        //document.getElementById('show-listings').addEventListener('click', showListings);
-
-        // document.getElementById('hide-listings').addEventListener('click', function() {
-        //   hideMarkers(markers);
-        // });
-
-        document.getElementById('toggle-drawing').addEventListener('click', function() {
-          toggleDrawing(drawingManager);
-        });
 
         document.getElementById('zoom-to-area').addEventListener('click', function() {
           zoomToArea();
@@ -238,6 +231,10 @@
         this.hasClickedHide = ko.computed(function() {
           return this.hasClickedHideButton() == 1;
         }, this);
+
+        this.toggleDrawing = function() {
+          toggleDrawing(drawingManager);
+        };
 
       };
 
