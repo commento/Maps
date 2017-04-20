@@ -108,9 +108,9 @@
         }
         //document.getElementById('show-listings').addEventListener('click', showListings);
 
-        document.getElementById('hide-listings').addEventListener('click', function() {
-          hideMarkers(markers);
-        });
+        // document.getElementById('hide-listings').addEventListener('click', function() {
+        //   hideMarkers(markers);
+        // });
 
         document.getElementById('toggle-drawing').addEventListener('click', function() {
           toggleDrawing(drawingManager);
@@ -553,4 +553,6 @@
           });
         }
       });
-    }    }
+    }
+
+    ko.applyBindings(new InformationPanelViewModel());
