@@ -109,10 +109,6 @@
           });
         }
 
-        document.getElementById('search-within-time').addEventListener('click', function() {
-          searchWithinTime();
-        });
-
         // Listen for the event fired when the user selects a prediction from the
         // picklist and retrieve more details for that place.
         searchBox.addListener('places_changed', function() {
@@ -197,7 +193,8 @@
 
         this.hasClickedShowButton = ko.observable(0);
         this.hasClickedHideButton = ko.observable(0);
-        this.address = ko.observable("");
+        this.addressZoom = ko.observable("");
+        this.addressTime = ko.observable("");
 
         this.showListings = function() {
           var bounds = new google.maps.LatLngBounds();
@@ -248,7 +245,7 @@
           //var zoomToAreaText 
           var geocoder = new google.maps.Geocoder();
           // Get the address or place that the user entered.
-          var address = this.address();
+          var address = this.addressZoom();
           // Make sure the address isn't blank.
           if (address == '') {
             window.alert('You must enter an area, or address.');
@@ -268,6 +265,44 @@
                 }
               });
             }
+        };
+
+        // This function allows the user to input a desired travel time, in
+        // minutes, and a travel mode, and a location - and only show the listings
+        // that are within that travel time (via that travel mode) of the location
+        this.searchWithinTime = function() {
+          // Initialize the distance matrix service.
+          var distanceMatrixService = new google.maps.DistanceMatrixService;
+          var address = this.addressTime();
+          // Check to make sure the place entered isn't blank.
+          if (address == '') {
+            window.alert('You must enter an address.');
+          } else {
+            hideMarkers(markers);
+            // Use the distance matrix service to calculate the duration of the
+            // routes between all our markers, and the destination address entered
+            // by the user. Then put all the origins into an origin matrix.
+            var origins = [];
+            for (var i = 0; i < markers.length; i++) {
+              origins[i] = markers[i].position;
+            }
+            var destination = address;
+            var mode = document.getElementById('mode').value;
+            // Now that both the origins and destination are defined, get all the
+            // info for the distances between them.
+            distanceMatrixService.getDistanceMatrix({
+              origins: origins,
+              destinations: [destination],
+              travelMode: google.maps.TravelMode[mode],
+              unitSystem: google.maps.UnitSystem.IMPERIAL,
+            }, function(response, status) {
+              if (status !== google.maps.DistanceMatrixStatus.OK) {
+                window.alert('Error was: ' + status);
+              } else {
+                displayMarkersWithinTime(response);
+              }
+            });
+          }
         };
 
       };
@@ -303,44 +338,6 @@
           } else {
             markers[i].setMap(null);
           }
-        }
-      }
-
-      // This function allows the user to input a desired travel time, in
-      // minutes, and a travel mode, and a location - and only show the listings
-      // that are within that travel time (via that travel mode) of the location
-      function searchWithinTime() {
-        // Initialize the distance matrix service.
-        var distanceMatrixService = new google.maps.DistanceMatrixService;
-        var address = document.getElementById('search-within-time-text').value;
-        // Check to make sure the place entered isn't blank.
-        if (address == '') {
-          window.alert('You must enter an address.');
-        } else {
-          hideMarkers(markers);
-          // Use the distance matrix service to calculate the duration of the
-          // routes between all our markers, and the destination address entered
-          // by the user. Then put all the origins into an origin matrix.
-          var origins = [];
-          for (var i = 0; i < markers.length; i++) {
-            origins[i] = markers[i].position;
-          }
-          var destination = address;
-          var mode = document.getElementById('mode').value;
-          // Now that both the origins and destination are defined, get all the
-          // info for the distances between them.
-          distanceMatrixService.getDistanceMatrix({
-            origins: origins,
-            destinations: [destination],
-            travelMode: google.maps.TravelMode[mode],
-            unitSystem: google.maps.UnitSystem.IMPERIAL,
-          }, function(response, status) {
-            if (status !== google.maps.DistanceMatrixStatus.OK) {
-              window.alert('Error was: ' + status);
-            } else {
-              displayMarkersWithinTime(response);
-            }
-          });
         }
       }
 
