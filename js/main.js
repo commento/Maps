@@ -109,10 +109,6 @@
           });
         }
 
-        document.getElementById('zoom-to-area').addEventListener('click', function() {
-          zoomToArea();
-        });
-
         document.getElementById('search-within-time').addEventListener('click', function() {
           searchWithinTime();
         });
@@ -234,6 +230,10 @@
 
         this.toggleDrawing = function() {
           toggleDrawing(drawingManager);
+        };
+
+        this.zoomToArea = function() {
+          zoomToArea();
         };
 
       };
