@@ -16,8 +16,8 @@
         // Create a styles array to use with the map.
 
 
-        var styledMapType = new google.maps.StyledMapType(
-        [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"},{"weight":"0.20"},{"lightness":"28"},{"saturation":"23"},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"color":"#494949"},{"lightness":13},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"transit","elementType":"all","stylers":[{"color":"#146474"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#021019"}]}], {name: 'Styled Map'});
+        //var styledMapType = new google.maps.StyledMapType(
+        //[{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"},{"weight":"0.20"},{"lightness":"28"},{"saturation":"23"},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"color":"#494949"},{"lightness":13},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"transit","elementType":"all","stylers":[{"color":"#146474"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#021019"}]}], {name: 'Styled Map'});
 
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
@@ -25,14 +25,14 @@
           zoom: 13,
           
           mapTypeControlOptions: {
-            mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-                    'styled_map']
+            mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain'] //,
+                    //'styled_map']
           },
           mapTypeControl: false
         });
 
-        map.mapTypes.set('styled_map', styledMapType);
-        map.setMapTypeId('styled_map');
+        //map.mapTypes.set('styled_map', styledMapType);
+        //map.setMapTypeId('styled_map');
 
         // This autocomplete is for use in the search within time entry box.
         var timeAutocomplete = new google.maps.places.Autocomplete(
@@ -51,12 +51,19 @@
         // These are the real estate listings that will be shown to the user.
         // Normally we'd have these in a database instead.
         var locations = [
-          {title: 'KulturBrauerei', location: {lat: 52.5394279, lng: 13.4134076}},
-          {title: 'Birra - Italian Craft Beer', location: {lat: 52.5385143, lng: 13.4232082}},
-          {title: 'Volksbühne am Rosa-Luxembourg-Platz', location: {lat: 52.526309, lng: 13.411482}},
-          {title: 'Factory', location: {lat: 52.5372122, lng: 13.3949587}},
-          {title: 'Maria Bonita Mexican Bistro', location: {lat: 52.5404475, lng: 13.4181335}},
-          {title: 'The School of Life Berlin', location: {lat: 52.5413562, lng: 13.4146176}}
+          {title: 'deepstreamhub', location: {lat: 52.5057635, lng: 13.4213807}},
+          {title: 'Native Instruments', location: {lat: 52.4991342, lng: 13.4462062}},
+          {title: 'Splash App', location: {lat: 52.5186107, lng: 13.3951823}},
+          {title: 'Factory/Soundcloud', location: {lat: 52.5372122, lng: 13.3949587}},
+          {title: 'Formlabs', location: {lat: 52.5319176, lng: 13.4269454}},
+          {title: 'think-cell', location: {lat: 52.5284938, lng: 13.3852142}},
+          {title: 'HelloFresh', location: {lat: 52.5286397, lng: 13.4114451}},
+          {title: 'WATTx', location: {lat: 52.4986194, lng: 13.3853782}},
+          {title: 'Contentful', location: {lat: 52.5023285, lng: 13.4094984}},
+          {title: 'Sonic Geometry', location: {lat: 52.5121479, lng: 13.3891572}},
+          {title: 'HERE', location: {lat: 52.53035, lng: 13.3809536}},
+          {title: 'Quandoo', location: {lat: 52.5486449, lng: 13.4039589}},
+          {title: 'BridgeMaker', location: {lat: 52.530906, lng: 13.4046994}}
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
