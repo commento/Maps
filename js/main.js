@@ -46,19 +46,19 @@
         // These are the real estate listings that will be shown to the user.
         // Normally we'd have these in a database instead.
         var locations = [
-          {title: 'deepstreamhub', location: {lat: 52.5057635, lng: 13.4213807}},
-          {title: 'Native Instruments', location: {lat: 52.4991342, lng: 13.4462062}},
-          {title: 'Splash App', location: {lat: 52.5186107, lng: 13.3951823}},
-          {title: 'Factory/Soundcloud', location: {lat: 52.5372122, lng: 13.3949587}},
-          {title: 'Formlabs', location: {lat: 52.5319176, lng: 13.4269454}},
-          {title: 'think-cell', location: {lat: 52.5284938, lng: 13.3852142}},
-          {title: 'HelloFresh', location: {lat: 52.5286397, lng: 13.4114451}},
-          {title: 'WATTx', location: {lat: 52.4986194, lng: 13.3853782}},
-          {title: 'Contentful', location: {lat: 52.5023285, lng: 13.4094984}},
-          {title: 'Sonic Geometry', location: {lat: 52.5121479, lng: 13.3891572}},
-          {title: 'HERE', location: {lat: 52.53035, lng: 13.3809536}},
-          {title: 'Quandoo', location: {lat: 52.5486449, lng: 13.4039589}},
-          {title: 'BridgeMaker', location: {lat: 52.530906, lng: 13.4046994}}
+          {title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
+          {title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
+          {title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
+          {title: 'Factory/Soundcloud', description: 'Applied for C++ Developer', tag: 'Embedded_software', location: {lat: 52.5372122, lng: 13.3949587}},
+          {title: 'Formlabs', description: 'Applied for Technical Specialist', tag: 'Quality_assurance', location: {lat: 52.5319176, lng: 13.4269454}},
+          {title: 'think-cell', description: 'Applied for C++ Backend Developer', tag: 'Web_developer', location: {lat: 52.5284938, lng: 13.3852142}},
+          {title: 'HelloFresh', description: 'Applied for QA Engineer', tag: 'Quality_assurance', location: {lat: 52.5286397, lng: 13.4114451}},
+          {title: 'WATTx', description: 'Applied for Embedded System Engineer', tag: 'Embedded_software', location: {lat: 52.4986194, lng: 13.3853782}},
+          {title: 'Contentful', description: 'Applied for IT internship', tag: 'Quality_assurance', location: {lat: 52.5023285, lng: 13.4094984}},
+          {title: 'Sonic Geometry', description: 'Applied for Sound Engineer', tag: 'Audio_engineer', location: {lat: 52.5121479, lng: 13.3891572}},
+          {title: 'HERE', description: 'Applied for C++ developer', tag: 'Software_developer', location: {lat: 52.53035, lng: 13.3809536}},
+          {title: 'Quandoo', description: 'Applied for QA Engineer internship', tag: 'Quality_assurance', location: {lat: 52.5486449, lng: 13.4039589}},
+          {title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
@@ -85,10 +85,12 @@
           // Get the position from the location array.
           var position = locations[i].location;
           var title = locations[i].title;
+          var description = locations[i].description;
           // Create a marker per location, and put into markers array.
           var marker = new google.maps.Marker({
             position: position,
             title: title,
+            description: description,
             animation: google.maps.Animation.DROP,
             icon: defaultIcon,
             id: i
@@ -162,7 +164,7 @@
               var nearStreetViewLocation = data.location.latLng;
               var heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+                infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div><div id="pano"></div>');
                 var panoramaOptions = {
                   position: nearStreetViewLocation,
                   pov: {
@@ -173,7 +175,7 @@
               var panorama = new google.maps.StreetViewPanorama(
                 document.getElementById('pano'), panoramaOptions);
             } else {
-              infowindow.setContent('<div>' + marker.title + '</div>' +
+              infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div>' +
                 '<div>No Street View Found</div>');
             }
           }
