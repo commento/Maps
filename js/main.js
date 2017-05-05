@@ -238,12 +238,16 @@
           this.hasClickedShowButton(1);
           this.hasClickedHideButton(0);
 
+          this.showMap();
+
         };
 
         this.hideListings = function() {
           hideMarkers(markers);
           this.hasClickedShowButton(0);
           this.hasClickedHideButton(1);
+
+          this.showMap();
 
         };
 
@@ -295,6 +299,8 @@
                 }
               });
             }
+
+            this.showMap();
         };
 
 
@@ -347,6 +353,8 @@
               }
             });
           }
+
+          this.showMap();
         };
 
       };
