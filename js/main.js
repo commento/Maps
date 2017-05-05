@@ -14,8 +14,37 @@
 
       var defaultIcon = null;
 
+      var textWiki = "not loaded"
+
+      function getJSONP(url, success) {
+        var ud = '_' + +new Date,
+        script = document.createElement('script'),
+        head = document.getElementsByTagName('head')[0] || document.documentElement;
+
+        window[ud] = function(data) {
+          head.removeChild(script);
+          success && success(data);
+        };
+
+        script.src = url.replace('callback=?', 'callback=' + ud);
+        head.appendChild(script);
+
+      }
+
       function initMap() {
         // Create a styles array to use with the map.
+
+        var cbSuccess = false;
+        getJSONP('http://en.wikipedia.org/w/api.php?format=json&action=query&titles=Software_developer&prop=extracts&rvprop=content&callback=?', function(data){
+                  //console.log(data);
+                  cbSuccess = true;
+                  textWiki = data.query.pages[179683].extract.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+                  //document.getElementById("output").innerHTML = text[0]; //data.query.pages[179683].extract;
+                }); 
+
+        setTimeout(function(){ 
+        if(!cbSuccess) { alert("Wikipedia API get failed"); } 
+        }, 2000)
 
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
@@ -164,7 +193,8 @@
               var nearStreetViewLocation = data.location.latLng;
               var heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div><div id="pano"></div>');
+              
+                infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div><div>' + textWiki[0] + '</div><div id="pano"></div>');
                 var panoramaOptions = {
                   position: nearStreetViewLocation,
                   pov: {
@@ -267,6 +297,20 @@
             }
         };
 
+
+        this.showOptionBox = function() {
+          console.log("ciao");
+          document.getElementById("map").style.visibility = "hidden";
+          //document.getElementById('zoom-to-area-text');
+        };
+
+        this.showMap = function() {
+          //document.body.style.marginLeft = "-362px";
+          document.getElementById("map").style.visibility = "visible";
+          console.log("ciao2");
+          //document.getElementById('zoom-to-area-text');
+
+        } ;
         // This function allows the user to input a desired travel time, in
         // minutes, and a travel mode, and a location - and only show the listings
         // that are within that travel time (via that travel mode) of the location
