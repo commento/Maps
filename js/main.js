@@ -590,6 +590,10 @@
             infowindow.marker = null;
           });
         }
+        else
+        {
+          alert("Google Maps Places API get failed");
+        }
       });
     }
 
