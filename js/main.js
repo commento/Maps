@@ -16,14 +16,7 @@
 
       var wiki = [];
 
-
-      function initMap() {
-        // Create a styles array to use with the map.
-
-
-        // These are the real estate listings that will be shown to the user.
-        // Normally we'd have these in a database instead.
-        var locations = [
+      var locations = [
           {title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
           {title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
           {title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
@@ -39,6 +32,13 @@
           {title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
         ];
 
+      function initMap() {
+        // Create a styles array to use with the map.
+
+
+        // These are the real estate listings that will be shown to the user.
+        // Normally we'd have these in a database instead.
+
         for(var i = 0; i < locations.length; i++){
           var playListURL = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=' + locations[i].tag + '&prop=extracts&rvprop=content&callback=?';
 
@@ -49,7 +49,6 @@
             $.each(data.query.pages, function(j, item) {
               var wikiall = data.query.pages[j].extract.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
               wiki[thisi] = wikiall[0];
-              console.log(thisi + " " + wiki[thisi]);
             });
           };
           }(i))
@@ -132,6 +131,8 @@
           });
         }
 
+        showMarkers();
+
         // Listen for the event fired when the user selects a prediction from the
         // picklist and retrieve more details for that place.
         searchBox.addListener('places_changed', function() {
@@ -190,8 +191,6 @@
               var nearStreetViewLocation = data.location.latLng;
               var heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
-                console.log(marker.id);
-                console.log(wiki[marker.id]);
                 infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div><div>' + wiki[marker.id] + '</div><div id="pano"></div>');
                 var panoramaOptions = {
                   position: nearStreetViewLocation,
@@ -222,6 +221,8 @@
         this.hasClickedHideButton = ko.observable(0);
         this.addressZoom = ko.observable("");
         this.addressTime = ko.observable("");
+        this.locations = ko.observableArray(locations);
+        //this.selectedLocations = ko.observableArray([1])
 
         this.showListings = function() {
           var bounds = new google.maps.LatLngBounds();
@@ -314,6 +315,16 @@
           //document.getElementById('zoom-to-area-text');
 
         } ;
+
+        this.showMark = function() {
+
+          console.log("ciao");
+          return 0;
+          //showMarker(markers[]);
+          
+
+        } ;
+
         // This function allows the user to input a desired travel time, in
         // minutes, and a travel mode, and a location - and only show the listings
         // that are within that travel time (via that travel mode) of the location
@@ -361,6 +372,28 @@
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(null);
         }
+      }
+
+      function showMarkers() {
+        //document.getElementById("map").style.visibility = "visible";
+        var bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+          bounds.extend(markers[i].position);
+          //markers[i].setIcon(defaultIcon);
+        }
+        map.fitBounds(bounds);
+      }
+
+      function showMarker(marker) {
+        //document.getElementById("map").style.visibility = "visible";
+        var bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+
+          marker.setMap(map);
+          bounds.extend(marker.position);
+        map.fitBounds(bounds);
       }
 
       // This function takes in a COLOR, and then creates a new marker
@@ -499,6 +532,10 @@
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             createMarkersForPlaces(results);
           }
+          else
+          {
+            alert("Google Maps Places API get failed");
+          }
         });
       }
 
@@ -541,7 +578,9 @@
             bounds.extend(place.geometry.location);
           }
         }
+
         map.fitBounds(bounds);
+
       }
 
     // This is the PLACE DETAILS search - it's the most detailed so it's only
@@ -594,5 +633,8 @@
       });
 
     }
+
+
+      // Extend the boundaries of the map for each marker and display the marker
 
     ko.applyBindings(new InformationPanelViewModel());

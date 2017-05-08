@@ -25,6 +25,15 @@
         </div>
         <hr>
         <div>
+          <ul data-bind="foreach: locations">
+    		<li>
+        	<input type="checkbox" data-bind="checkedValue: title, checked: 1">
+        	<span data-bind="text: title"></span>
+    		</li>
+		  </ul>
+        </div>
+        <hr>
+        <div>
           <input data-bind="textInput: addressZoom" id="zoom-to-area-text" type="text" placeholder="Enter your favorite Berlin area!">
           <input data-bind='click: zoomToArea' id="zoom-to-area" type="button" value="Zoom">
         </div>
