@@ -17,19 +17,19 @@
       var wiki = [];
 
       var locations = [
-          {title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
-          {title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
-          {title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
-          {title: 'Factory/Soundcloud', description: 'Applied for C++ Developer', tag: 'Embedded_software', location: {lat: 52.5372122, lng: 13.3949587}},
-          {title: 'Formlabs', description: 'Applied for Technical Specialist', tag: 'Quality_assurance', location: {lat: 52.5319176, lng: 13.4269454}},
-          {title: 'think-cell', description: 'Applied for C++ Backend Developer', tag: 'Web_developer', location: {lat: 52.5284938, lng: 13.3852142}},
-          {title: 'HelloFresh', description: 'Applied for QA Engineer', tag: 'Quality_assurance', location: {lat: 52.5286397, lng: 13.4114451}},
-          {title: 'WATTx', description: 'Applied for Embedded System Engineer', tag: 'Embedded_software', location: {lat: 52.4986194, lng: 13.3853782}},
-          {title: 'Contentful', description: 'Applied for IT internship', tag: 'Quality_assurance', location: {lat: 52.5023285, lng: 13.4094984}},
-          {title: 'Sonic Geometry', description: 'Applied for Sound Engineer', tag: 'Audio_engineer', location: {lat: 52.5121479, lng: 13.3891572}},
-          {title: 'HERE', description: 'Applied for C++ developer', tag: 'Software_developer', location: {lat: 52.53035, lng: 13.3809536}},
-          {title: 'Quandoo', description: 'Applied for QA Engineer internship', tag: 'Quality_assurance', location: {lat: 52.5486449, lng: 13.4039589}},
-          {title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
+          {id: 0,title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
+          {id: 1,title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
+          {id: 2,title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
+          {id: 3,title: 'Factory/Soundcloud', description: 'Applied for C++ Developer', tag: 'Embedded_software', location: {lat: 52.5372122, lng: 13.3949587}},
+          {id: 4,title: 'Formlabs', description: 'Applied for Technical Specialist', tag: 'Quality_assurance', location: {lat: 52.5319176, lng: 13.4269454}},
+          {id: 5,title: 'think-cell', description: 'Applied for C++ Backend Developer', tag: 'Web_developer', location: {lat: 52.5284938, lng: 13.3852142}},
+          {id: 6,title: 'HelloFresh', description: 'Applied for QA Engineer', tag: 'Quality_assurance', location: {lat: 52.5286397, lng: 13.4114451}},
+          {id: 7,title: 'WATTx', description: 'Applied for Embedded System Engineer', tag: 'Embedded_software', location: {lat: 52.4986194, lng: 13.3853782}},
+          {id: 8,title: 'Contentful', description: 'Applied for IT internship', tag: 'Quality_assurance', location: {lat: 52.5023285, lng: 13.4094984}},
+          {id: 9,title: 'Sonic Geometry', description: 'Applied for Sound Engineer', tag: 'Audio_engineer', location: {lat: 52.5121479, lng: 13.3891572}},
+          {id: 10,title: 'HERE', description: 'Applied for C++ developer', tag: 'Software_developer', location: {lat: 52.53035, lng: 13.3809536}},
+          {id: 11,title: 'Quandoo', description: 'Applied for QA Engineer internship', tag: 'Quality_assurance', location: {lat: 52.5486449, lng: 13.4039589}},
+          {id: 12,title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
         ];
 
       function initMap() {
@@ -318,10 +318,8 @@
 
         this.showMark = function() {
 
-          console.log("ciao");
-          return 0;
+          console.log("prova");
           //showMarker(markers[]);
-          
 
         } ;
 
@@ -375,7 +373,7 @@
       }
 
       function showMarkers() {
-        //document.getElementById("map").style.visibility = "visible";
+        document.getElementById("map").style.visibility = "visible";
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {

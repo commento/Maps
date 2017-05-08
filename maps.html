@@ -27,8 +27,8 @@
         <div>
           <ul data-bind="foreach: locations">
     		<li>
-        	<input type="checkbox" data-bind="checkedValue: title, checked: 1">
-        	<span data-bind="text: title"></span>
+        	<span data-bind="text:id" ></span> - <span data-bind="text: title"></span>
+        	<input data-bind='click: $parent.showMark' id="show-Marker" type="button" value="go">
     		</li>
 		  </ul>
         </div>
