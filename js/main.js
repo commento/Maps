@@ -14,37 +14,51 @@
 
       var defaultIcon = null;
 
-      var textWiki = "not loaded"
+      var wiki = [];
 
-      function getJSONP(url, success) {
-        var ud = '_' + +new Date,
-        script = document.createElement('script'),
-        head = document.getElementsByTagName('head')[0] || document.documentElement;
-
-        window[ud] = function(data) {
-          head.removeChild(script);
-          success && success(data);
-        };
-
-        script.src = url.replace('callback=?', 'callback=' + ud);
-        head.appendChild(script);
-
-      }
 
       function initMap() {
         // Create a styles array to use with the map.
 
-        var cbSuccess = false;
-        getJSONP('http://en.wikipedia.org/w/api.php?format=json&action=query&titles=Software_developer&prop=extracts&rvprop=content&callback=?', function(data){
-                  //console.log(data);
-                  cbSuccess = true;
-                  textWiki = data.query.pages[179683].extract.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
-                  //document.getElementById("output").innerHTML = text[0]; //data.query.pages[179683].extract;
-                }); 
 
-        setTimeout(function(){ 
-        if(!cbSuccess) { alert("Wikipedia API get failed"); } 
-        }, 2000)
+        // These are the real estate listings that will be shown to the user.
+        // Normally we'd have these in a database instead.
+        var locations = [
+          {title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
+          {title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
+          {title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
+          {title: 'Factory/Soundcloud', description: 'Applied for C++ Developer', tag: 'Embedded_software', location: {lat: 52.5372122, lng: 13.3949587}},
+          {title: 'Formlabs', description: 'Applied for Technical Specialist', tag: 'Quality_assurance', location: {lat: 52.5319176, lng: 13.4269454}},
+          {title: 'think-cell', description: 'Applied for C++ Backend Developer', tag: 'Web_developer', location: {lat: 52.5284938, lng: 13.3852142}},
+          {title: 'HelloFresh', description: 'Applied for QA Engineer', tag: 'Quality_assurance', location: {lat: 52.5286397, lng: 13.4114451}},
+          {title: 'WATTx', description: 'Applied for Embedded System Engineer', tag: 'Embedded_software', location: {lat: 52.4986194, lng: 13.3853782}},
+          {title: 'Contentful', description: 'Applied for IT internship', tag: 'Quality_assurance', location: {lat: 52.5023285, lng: 13.4094984}},
+          {title: 'Sonic Geometry', description: 'Applied for Sound Engineer', tag: 'Audio_engineer', location: {lat: 52.5121479, lng: 13.3891572}},
+          {title: 'HERE', description: 'Applied for C++ developer', tag: 'Software_developer', location: {lat: 52.53035, lng: 13.3809536}},
+          {title: 'Quandoo', description: 'Applied for QA Engineer internship', tag: 'Quality_assurance', location: {lat: 52.5486449, lng: 13.4039589}},
+          {title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
+        ];
+
+        for(var i = 0; i < locations.length; i++){
+          var playListURL = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=' + locations[i].tag + '&prop=extracts&rvprop=content&callback=?';
+
+          var cbSuccess = false;
+          var index = 0;
+          $.getJSON(playListURL ,(function(thisi) { return function(data) {
+            cbSuccess = true;
+            $.each(data.query.pages, function(j, item) {
+              var wikiall = data.query.pages[j].extract.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|");
+              wiki[thisi] = wikiall[0];
+              console.log(thisi + " " + wiki[thisi]);
+            });
+          };
+          }(i))
+          );
+
+          setTimeout(function(){ 
+          if(!cbSuccess) { alert("Wikipedia API get failed"); } 
+          }, 2000)
+        }
 
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
@@ -71,24 +85,6 @@
             document.getElementById('places-search'));
         // Bias the searchbox to within the bounds of the map.
         searchBox.setBounds(map.getBounds());
-
-        // These are the real estate listings that will be shown to the user.
-        // Normally we'd have these in a database instead.
-        var locations = [
-          {title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
-          {title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
-          {title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
-          {title: 'Factory/Soundcloud', description: 'Applied for C++ Developer', tag: 'Embedded_software', location: {lat: 52.5372122, lng: 13.3949587}},
-          {title: 'Formlabs', description: 'Applied for Technical Specialist', tag: 'Quality_assurance', location: {lat: 52.5319176, lng: 13.4269454}},
-          {title: 'think-cell', description: 'Applied for C++ Backend Developer', tag: 'Web_developer', location: {lat: 52.5284938, lng: 13.3852142}},
-          {title: 'HelloFresh', description: 'Applied for QA Engineer', tag: 'Quality_assurance', location: {lat: 52.5286397, lng: 13.4114451}},
-          {title: 'WATTx', description: 'Applied for Embedded System Engineer', tag: 'Embedded_software', location: {lat: 52.4986194, lng: 13.3853782}},
-          {title: 'Contentful', description: 'Applied for IT internship', tag: 'Quality_assurance', location: {lat: 52.5023285, lng: 13.4094984}},
-          {title: 'Sonic Geometry', description: 'Applied for Sound Engineer', tag: 'Audio_engineer', location: {lat: 52.5121479, lng: 13.3891572}},
-          {title: 'HERE', description: 'Applied for C++ developer', tag: 'Software_developer', location: {lat: 52.53035, lng: 13.3809536}},
-          {title: 'Quandoo', description: 'Applied for QA Engineer internship', tag: 'Quality_assurance', location: {lat: 52.5486449, lng: 13.4039589}},
-          {title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
-        ];
 
         var largeInfowindow = new google.maps.InfoWindow();
 
@@ -185,6 +181,7 @@
           });
           var streetViewService = new google.maps.StreetViewService();
           var radius = 50;
+
           // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
           // panorama from that and set the options
@@ -193,8 +190,9 @@
               var nearStreetViewLocation = data.location.latLng;
               var heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
-              
-                infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div><div>' + textWiki[0] + '</div><div id="pano"></div>');
+                console.log(marker.id);
+                console.log(wiki[marker.id]);
+                infowindow.setContent('<div><b>' + marker.title + '</b></div><div>' + marker.description + '</div><div>' + wiki[marker.id] + '</div><div id="pano"></div>');
                 var panoramaOptions = {
                   position: nearStreetViewLocation,
                   pov: {
@@ -305,7 +303,7 @@
 
 
         this.showOptionBox = function() {
-          console.log("ciao");
+          
           document.getElementById("map").style.visibility = "hidden";
           //document.getElementById('zoom-to-area-text');
         };
@@ -313,7 +311,6 @@
         this.showMap = function() {
           //document.body.style.marginLeft = "-362px";
           document.getElementById("map").style.visibility = "visible";
-          console.log("ciao2");
           //document.getElementById('zoom-to-area-text');
 
         } ;
@@ -595,6 +592,7 @@
           alert("Google Maps Places API get failed");
         }
       });
+
     }
 
     ko.applyBindings(new InformationPanelViewModel());
