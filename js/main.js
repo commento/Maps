@@ -14,6 +14,10 @@
 
       var defaultIcon = null;
 
+      var clickedIcon = null;
+
+      var largeInfowindow = null;
+
       var wiki = [];
 
       var locations = [
@@ -85,7 +89,7 @@
         // Bias the searchbox to within the bounds of the map.
         searchBox.setBounds(map.getBounds());
 
-        var largeInfowindow = new google.maps.InfoWindow();
+        largeInfowindow = new google.maps.InfoWindow();
 
         // Initialize the drawing manager.
         drawingManager = new google.maps.drawing.DrawingManager({
@@ -102,7 +106,7 @@
         // Style the markers a bit. This will be our listing marker icon.
         defaultIcon = makeMarkerIcon('0091ff');
 
-        var clickedIcon = makeMarkerIcon('FFFFFF');
+        clickedIcon = makeMarkerIcon('FFFFFF');
 
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < locations.length; i++) {
@@ -316,10 +320,13 @@
 
         } ;
 
-        this.showMark = function() {
+        this.showMark = function(location) {
 
-          console.log("prova");
-          //showMarker(markers[]);
+          console.log(location.id);
+
+          markers[location.id].setIcon(clickedIcon);
+          populateInfoWindow(markers[location.id], largeInfowindow);
+          showMarker(markers[location.id]);
 
         } ;
 
@@ -373,7 +380,7 @@
       }
 
       function showMarkers() {
-        document.getElementById("map").style.visibility = "visible";
+        //document.getElementById("map").style.visibility = "visible";
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {
@@ -389,9 +396,8 @@
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
 
-          marker.setMap(map);
-          bounds.extend(marker.position);
-        map.fitBounds(bounds);
+        marker.setMap(map);
+        document.getElementById("map").style.visibility = "visible";
       }
 
       // This function takes in a COLOR, and then creates a new marker
