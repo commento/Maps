@@ -144,7 +144,7 @@
 
         // Listen for the event fired when the user selects a prediction and clicks
         // "go" more details for that place.
-        document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+        //document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 
         // Add an event listener so that the polygon is captured,  call the
         // searchWithinPolygon function. This will show the markers in the polygon,
@@ -252,6 +252,11 @@
           this.showMap();
 
         };
+
+        this.textSearchPlaces = function() {
+          textSearchPlaces();
+          this.showMap();
+        }
 
         this.hasClickedShow = ko.computed(function() {
           return this.hasClickedShowButton() == 1;
