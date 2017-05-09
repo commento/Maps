@@ -20,6 +20,22 @@
 
       var wiki = [];
 
+      var fixedlocations = [
+          {id: 0,title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
+          {id: 1,title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
+          {id: 2,title: 'Splash App', description: 'Applied for Creative Coder', tag: 'Creative_coding', location: {lat: 52.5186107, lng: 13.3951823}},
+          {id: 3,title: 'Factory/Soundcloud', description: 'Applied for C++ Developer', tag: 'Embedded_software', location: {lat: 52.5372122, lng: 13.3949587}},
+          {id: 4,title: 'Formlabs', description: 'Applied for Technical Specialist', tag: 'Quality_assurance', location: {lat: 52.5319176, lng: 13.4269454}},
+          {id: 5,title: 'think-cell', description: 'Applied for C++ Backend Developer', tag: 'Web_developer', location: {lat: 52.5284938, lng: 13.3852142}},
+          {id: 6,title: 'HelloFresh', description: 'Applied for QA Engineer', tag: 'Quality_assurance', location: {lat: 52.5286397, lng: 13.4114451}},
+          {id: 7,title: 'WATTx', description: 'Applied for Embedded System Engineer', tag: 'Embedded_software', location: {lat: 52.4986194, lng: 13.3853782}},
+          {id: 8,title: 'Contentful', description: 'Applied for IT internship', tag: 'Quality_assurance', location: {lat: 52.5023285, lng: 13.4094984}},
+          {id: 9,title: 'Sonic Geometry', description: 'Applied for Sound Engineer', tag: 'Audio_engineer', location: {lat: 52.5121479, lng: 13.3891572}},
+          {id: 10,title: 'HERE', description: 'Applied for C++ developer', tag: 'Software_developer', location: {lat: 52.53035, lng: 13.3809536}},
+          {id: 11,title: 'Quandoo', description: 'Applied for QA Engineer internship', tag: 'Quality_assurance', location: {lat: 52.5486449, lng: 13.4039589}},
+          {id: 12,title: 'BridgeMaker', description: 'Applied for Junior Backend Engineer', tag: 'Web_developer', location: {lat: 52.530906, lng: 13.4046994}}
+        ];
+
       var locations = [
           {id: 0,title: 'deepstreamhub', description: 'Applied for Junior Fullstack Engineer', tag: 'Web_developer', location: {lat: 52.5057635, lng: 13.4213807}},
           {id: 1,title: 'Native Instruments', description: 'Applied for C++ Developer', tag: 'Software_developer', location: {lat: 52.4991342, lng: 13.4462062}},
@@ -231,11 +247,13 @@
         this.search = function(value) {
           // remove all the current beers, which removes them from the view
           ViewModel.locations.removeAll();
+          hideMarkers(markers);
 
-          for(var x in locations) {
-            if(locations[x].title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-              console.log(locations[x].title)
-              ViewModel.locations.push(locations[x]);
+          for(var i = 0; i < fixedlocations.length; i++) {
+
+            if(fixedlocations[i].title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+              ViewModel.locations.push(fixedlocations[i]);
+              showMarkerFilter(markers[fixedlocations[i].id]);
             }
           }
         };
@@ -418,6 +436,14 @@
 
         marker.setMap(map);
         document.getElementById("map").style.visibility = "visible";
+      }
+
+      function showMarkerFilter(marker) {
+        //document.getElementById("map").style.visibility = "visible";
+        var bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+
+        marker.setMap(map);
       }
 
       // This function takes in a COLOR, and then creates a new marker
