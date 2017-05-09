@@ -25,9 +25,10 @@
         </div>
         <hr>
         <div>
-          <ul data-bind="foreach: locations">
+        <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
+        <ul data-bind="foreach: locations">
     		<li>
-        	<span data-bind="text:id" ></span> - <span data-bind="text: title"></span>
+        	<span data-bind="text: title"></span>
         	<input data-bind='click: $parent.showMark' id="show-Marker" type="button" value="go">
     		</li>
 		  </ul>

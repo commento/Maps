@@ -225,7 +225,23 @@
         this.addressZoom = ko.observable("");
         this.addressTime = ko.observable("");
         this.locations = ko.observableArray(locations);
-        //this.selectedLocations = ko.observableArray([1])
+        this.query = ko.observable('')
+
+
+        this.search = function(value) {
+          // remove all the current beers, which removes them from the view
+          ViewModel.locations.removeAll();
+
+          for(var x in locations) {
+            if(locations[x].title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+              console.log(locations[x].title)
+              ViewModel.locations.push(locations[x]);
+            }
+          }
+        };
+
+        this.query.subscribe(this.search);
+
 
         this.showListings = function() {
           var bounds = new google.maps.LatLngBounds();
@@ -642,7 +658,6 @@
 
     }
 
-
+    var ViewModel = new InformationPanelViewModel();
       // Extend the boundaries of the map for each marker and display the marker
-
-    ko.applyBindings(new InformationPanelViewModel());
+    ko.applyBindings(ViewModel);
