@@ -56,11 +56,10 @@
             });
           };
           }(i))
-          );
+          ).fail(function(jqXHR, status, error){
+            alert("Wikipedia API get failed");
+          });
 
-          setTimeout(function(){ 
-          if(!cbSuccess) { alert("Wikipedia API get failed"); } 
-          }, 2000)
         }
 
         // Constructor creates a new map - only center and zoom are required.
