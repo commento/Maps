@@ -345,22 +345,15 @@
         };
 
 
-        this.showOptionBox = function() {
-          
+        this.showOptionBox = function() {          
           document.getElementById("map").style.visibility = "hidden";
-          //document.getElementById('zoom-to-area-text');
         };
 
         this.showMap = function() {
-          //document.body.style.marginLeft = "-362px";
           document.getElementById("map").style.visibility = "visible";
-          //document.getElementById('zoom-to-area-text');
-
         } ;
 
         this.showMark = function(location) {
-
-          console.log(location.id);
 
           markers[location.id].setIcon(clickedIcon);
           populateInfoWindow(markers[location.id], largeInfowindow);
@@ -404,7 +397,6 @@
               }
             });
           }
-
           this.showMap();
         };
 
@@ -418,19 +410,16 @@
       }
 
       function showMarkers() {
-        //document.getElementById("map").style.visibility = "visible";
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(map);
           bounds.extend(markers[i].position);
-          //markers[i].setIcon(defaultIcon);
         }
         map.fitBounds(bounds);
       }
 
       function showMarker(marker) {
-        //document.getElementById("map").style.visibility = "visible";
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
 
@@ -439,7 +428,6 @@
       }
 
       function showMarkerFilter(marker) {
-        //document.getElementById("map").style.visibility = "visible";
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
 
