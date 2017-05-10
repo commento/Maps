@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name=viewport content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
@@ -27,11 +28,11 @@
         <div>
         <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
         <ul data-bind="foreach: locations">
-    		<li>
+    		  <li>
         	<span data-bind="text: title"></span>
         	<input data-bind='click: $parent.showMark' id="show-Marker" type="button" value="go">
-    		</li>
-		  </ul>
+    		  </li>
+		    </ul>
         </div>
         <hr>
         <div>
@@ -41,13 +42,13 @@
         <hr>
         <div>
           <span class="text"> Within </span>
-          <select id="max-duration">
+          <select id="max-duration" data-bind="selectedOptions: maxDuration">
             <option value="10">10 min</option>
             <option value="15">15 min</option>
             <option value="30">30 min</option>
             <option value="60">1 hour</option>
           </select>
-          <select id="mode">
+          <select id="mode" data-bind="selectedOptions: mode">
             <option value="DRIVING">drive</option>
             <option value="WALKING">walk</option>
             <option value="BICYCLING">bike</option>

@@ -160,7 +160,6 @@
 
         // Listen for the event fired when the user selects a prediction and clicks
         // "go" more details for that place.
-        //document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 
         // Add an event listener so that the polygon is captured,  call the
         // searchWithinPolygon function. This will show the markers in the polygon,
@@ -241,8 +240,9 @@
         this.addressZoom = ko.observable("");
         this.addressTime = ko.observable("");
         this.locations = ko.observableArray(locations);
-        this.query = ko.observable('')
-
+        this.query = ko.observable('');
+        this.mode = ko.observable("DRIVING");
+        this.maxDuration = ko.observable("10");
 
         this.search = function(value) {
           // remove all the current beers, which removes them from the view
@@ -292,6 +292,9 @@
           this.showMap();
         }
 
+        this.selectedOptions = ko.computed(function() {
+          return this.hasClickedShowButton() == 1;
+        }, this);
         this.hasClickedShow = ko.computed(function() {
           return this.hasClickedShowButton() == 1;
         }, this);
@@ -381,7 +384,8 @@
               origins[i] = markers[i].position;
             }
             var destination = address;
-            var mode = document.getElementById('mode').value;
+            var mode = this.mode();
+
             // Now that both the origins and destination are defined, get all the
             // info for the distances between them.
             distanceMatrixService.getDistanceMatrix({
@@ -464,7 +468,7 @@
       // This function will go through each of the results, and,
       // if the distance is LESS than the value in the picker, show it on the map.
       function displayMarkersWithinTime(response) {
-        var maxDuration = document.getElementById('max-duration').value;
+        var maxDuration = ViewModel.maxDuration();
         var origins = response.originAddresses;
         var destinations = response.destinationAddresses;
         // Parse through the results, and get the distance and duration of each.
@@ -519,9 +523,9 @@
         var directionsService = new google.maps.DirectionsService;
         // Get the destination address from the user entered value.
         var destinationAddress =
-            document.getElementById('search-within-time-text').value;
+            ViewModel.addressTime();
         // Get mode again from the user entered value.
-        var mode = document.getElementById('mode').value;
+        var mode = ViewModel.mode();
         directionsService.route({
           // The origin is the passed in marker's position.
           origin: origin,
